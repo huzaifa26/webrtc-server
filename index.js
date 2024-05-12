@@ -14,36 +14,17 @@ const server = http.createServer(app);
 
 const wss = new WebSocket.Server({ server });
 
-wss.on('connection', (ws) => {
+wss.on('connection', (ws, req) => {
   console.log('Client connected');
 
   ws.on('message', (message) => {
     const data = JSON.parse(message);
-    console.log(data.type);
-
-    switch (data.type) {
-      case 'addUser':
-        'handleAddUser();'
-        break;
-      default:
-        console.log('No handler against type', data?.type)
-    }
-
+    console.log(data)
     wss.clients.forEach((client) => {
       if (client !== ws && client.readyState === WebSocket.OPEN) {
-        client.send(message);
+        client.send(JSON.stringify(data));
       }
     });
-  });
-
-  ws.on('connectionId', (id) => {
-    console.log(`Received userId: ${id}`);
-
-    // wss.clients.forEach((client) => {
-    //   if (client !== ws && client.readyState === WebSocket.OPEN) {
-    //     client.send(message);
-    //   }
-    // });
   });
 
   ws.on('close', () => {
