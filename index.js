@@ -5,7 +5,6 @@ const http = require('http');
 const WebSocket = require('ws');
 
 const app = express();
-
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
