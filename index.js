@@ -14,11 +14,10 @@ const server = http.createServer(app);
 const wss = new WebSocket.Server({ server });
 
 wss.on('connection', (ws, req) => {
-  console.log('Client connected');
-
   ws.on('message', (message) => {
     const data = JSON.parse(message);
     wss.clients.forEach((client) => {
+      console.log(client, ws)
       if (client !== ws && client.readyState === WebSocket.OPEN) {
         client.send(JSON.stringify(data));
       }
